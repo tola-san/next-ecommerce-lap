@@ -17,7 +17,7 @@ export default function Navbar() {
           </h1>
         </Link>
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 text-sm text-gray-800 bg-zinc-100 p-1 px-4 rounded-full">
+        <div className="hidden md:flex items-center gap-2 text-sm text-gray-800 bg-white/60 border border-zinc-300 p-1 px-4 rounded-full">
           <Link href="/" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full ">Home</Link>
           <Link href="/products" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors  p-1 px-4 rounded-full">Shop</Link>
           <Link href="/categories" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full">Categories</Link>
@@ -40,7 +40,7 @@ export default function Navbar() {
           </div>
 
           {/* Icons */}
-          <button className="p-2  hover:bg-zinc-800cursor-pointer rounded-full transition-all text-gray-700 border border-zinc-300">
+          <button className="p-2  hover:bg-zinc-800 cursor-pointer rounded-full transition-all text-gray-700 border border-zinc-300">
             <User size={22} />
           </button>
 

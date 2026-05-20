@@ -1,6 +1,8 @@
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, Poppins, Kantumruy_Pro } from "next/font/google";
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
+import {CartProvider} from "@/context/CartContext";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Tola | Portfolio",                    // ← Change to your name
+  title: "Ecomlap",                    // ← Change to your name
   description: "Full-Stack Developer & Systems Architect",
   icons: {
     icon: [
@@ -37,8 +39,11 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${poppins.className} h-full`}>
       <body className="min-h-full flex flex-col ">
         <Navbar />
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
         <Footer />
+
       </body>
     </html>
   );
