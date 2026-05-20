@@ -17,11 +17,11 @@ export default function Navbar() {
           </h1>
         </Link>
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 text-sm font-medium text-gray-800   ">
-          <Link href="/" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors border border-zinc-300 p-2 px-4 rounded-full ">Home</Link>
-          <Link href="/shop" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors border border-zinc-300 p-2 px-4 rounded-full">Shop</Link>
-          <Link href="/categories" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors border border-zinc-300 p-2 px-4 rounded-full">Categories</Link>
-          <Link href="/about" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors border border-zinc-300 p-2 px-4 rounded-full">About</Link>
+        <div className="hidden md:flex items-center gap-2 text-sm text-gray-800 bg-zinc-100 p-1 px-4 rounded-full">
+          <Link href="/" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full ">Home</Link>
+          <Link href="/products" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors  p-1 px-4 rounded-full">Shop</Link>
+          <Link href="/categories" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full">Categories</Link>
+          <Link href="/about" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors  p-1 px-4 rounded-full">About</Link>
         </div>
 
         {/* Right Side */}

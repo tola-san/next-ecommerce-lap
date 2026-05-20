@@ -1,5 +1,8 @@
 
 import React from "react";
+import Image from "next/image";
+import ProductGrid from "./ProductGrid";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -31,26 +34,28 @@ export default function Hero() {
               Shop the latest in modern fashion, electronics, and lifestyle products with premium quality.
             </p>
 
+             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-white text-black font-semibold px-8 py-2 rounded-2xl hover:bg-white/90 transition-all active:scale-95 text-lg">
+
+              {/* link to products list */}
+              <Link href="/products" className="bg-white text-black font-semibold px-8 py-2 rounded-2xl hover:bg-white/90 transition-all active:scale-95 text-lg">
                 Shop Now
-              </button>
-              
-              <button className="border border-white/70 hover:border-white text-white font-medium px-8 py-2 rounded-2xl hover:bg-white/10 transition-all active:scale-95 text-lg backdrop-blur-md">
+              </Link>
+
+              {/* link to Products list  */}
+              <Link href="/categories" className="border border-white/70 hover:border-white text-white font-medium px-8 py-2 rounded-2xl hover:bg-white/10 transition-all active:scale-95 text-lg backdrop-blur-md">
                 Browse Categories
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-2">
-        <span className="text-sm tracking-widest">SCROLL</span>
-        <div className="w-5 h-8 border border-white/50 rounded-full flex items-center justify-center">
-          <div className="w-1 h-2 bg-white/70 rounded-full animate-scroll" />
-        </div>
-      </div>
+    
     </section>
+
+    
+
+    
   );
 }
