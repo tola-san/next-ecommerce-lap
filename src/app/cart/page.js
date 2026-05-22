@@ -68,7 +68,7 @@ export default function CartPage() {
               {/* IMAGE */}
               <div className="bg-zinc-100 rounded-full p-4 flex items-center justify-center">
                 <img
-                  src={item.image}
+                  src={item.thumbnail}
                   alt={item.title}
                   className="w-40 h-40 object-contain"
                 />

@@ -1,4 +1,4 @@
-const BASE_URL = "https://fakestoreapi.com";
+const BASE_URL = "https://dummyjson.com";
 
 const api = async (endpoint, options = {}) => {
   const res = await fetch(`${BASE_URL}${endpoint}`, {

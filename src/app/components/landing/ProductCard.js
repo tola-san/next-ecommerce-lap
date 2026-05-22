@@ -17,7 +17,7 @@ export default function ProductCard({ product }) {
         <div className="bg-zinc-100 border border-zinc-200 h-56 flex items-center justify-center p-10 overflow-hidden">
 
           <img
-            src={product.image}
+            src={product.thumbnail}
             alt={product.title}
             className="h-52 object-contain group-hover:scale-105 transition duration-300"
           />

@@ -1,11 +1,15 @@
 import api from "@/lib/axios";
 
 export const getProducts = async () => {
-  return await api("/products");
+  const data = await api("/products?limit=8");
+
+  return data.products;
 };
 
 export const getProductsByCategory = async (category) => {
-  return await api(`/products/category/${category}`);
+  const data = await api(`/products/category/${category}`);
+
+  return data.products;
 };
 
 export const getProductById = async (id) => {
