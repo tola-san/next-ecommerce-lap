@@ -1,24 +1,17 @@
 import api from "@/lib/axios";
 
 export const getProducts = async () => {
-  const response = await api.get("/products");
-  return response.data;
+  return await api("/products");
 };
 
-
 export const getProductsByCategory = async (category) => {
-  const response = await api.get(`/products/category/${category}`);
-  return response.data;
-}
-
-
+  return await api(`/products/category/${category}`);
+};
 
 export const getProductById = async (id) => {
-  const response = await api.get(`/products/${id}`);
-  return response.data;
-}
+  return await api(`/products/${id}`);
+};
 
 export const getCategories = async () => {
-  const response = await api.get("/products/categories");
-  return response.data;
+  return await api("/products/categories");
 };
