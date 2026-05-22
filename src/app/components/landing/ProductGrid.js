@@ -1,5 +1,6 @@
 import { getProducts } from "@/services/api";
 import ProductCard from "./ProductCard";
+export const dynamic = "force-dynamic";
 
 export default async function ProductGrid() {
   const products = await getProducts();
