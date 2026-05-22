@@ -52,7 +52,7 @@ export default function Navbar() {
           </Link>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2 hover:bg-zinc-800rounded-full transition-all text-gray-700 border border-zinc-300">
+          <button className="md:hidden p-2 hover:bg-zinc-800 rounded-full transition-all text-gray-700 border border-zinc-300">
             <Menu size={24} />
           </button>
         </div>
