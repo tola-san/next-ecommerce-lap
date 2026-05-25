@@ -6,7 +6,7 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-10">
+    <section className="max-w-7xl mx-auto px-4 py-10">
 
       <div className="mb-10">
         <h1 className="text-4xl font-bold">

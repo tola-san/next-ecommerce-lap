@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+
+import {
+  Trash2,
+  Plus,
+  Minus,
+  ShoppingBag,
+  ArrowRight,
+} from "lucide-react";
 
 import { useCart } from "@/context/CartContext";
 
@@ -14,175 +21,250 @@ export default function CartPage() {
     decreaseQuantity,
   } = useCart();
 
-  const total = cartItems.reduce(
+  const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  const shipping = 10;
+  const tax = 5;
+
+  const total = subtotal + shipping + tax;
+
+  /* EMPTY CART */
   if (cartItems.length === 0) {
     return (
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
+      <section className="min-h-screen bg-zinc-50 flex items-center justify-center px-6">
 
-        <div className="flex justify-center mb-6">
-          <ShoppingBag size={80} className="text-zinc-300" />
+        <div className="text-center max-w-lg">
+
+          <div className="w-32 h-32 rounded-full bg-white shadow-lg border border-zinc-200 flex items-center justify-center mx-auto mb-8">
+
+            <ShoppingBag size={60} className="text-zinc-300" />
+
+          </div>
+
+          <h1 className="text-5xl font-semibold mb-5">
+            Your Cart is Empty
+          </h1>
+
+          <p className="text-zinc-500 text-lg leading-8 mb-10">
+            Looks like you haven’t added any products yet.
+            Start shopping to fill your cart.
+          </p>
+
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-3 bg-black text-white px-8 py-4 rounded-2xl hover:bg-zinc-800 transition"
+          >
+            Continue Shopping
+
+            <ArrowRight size={20} />
+          </Link>
+
         </div>
-
-        <h1 className="text-4xl font-bold mb-4">
-          Your Cart is Empty
-        </h1>
-
-        <p className="text-zinc-500 mb-8">
-          Looks like you haven’t added anything yet.
-        </p>
-
-        <Link
-          href="/products"
-          className="bg-black text-white px-8 py-4rounded-full hover:bg-zinc-800 transition"
-        >
-          Continue Shopping
-        </Link>
 
       </section>
     );
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
+    <section className="bg-zinc-50 min-h-screen py-16">
 
-      <h1 className="text-4xl font-bold mb-10">
-        Shopping Cart
-      </h1>
+      <div className="max-w-7xl mx-auto px-6">
 
-      <div className="grid lg:grid-cols-3 gap-10">
+        {/* Header */}
+        <div className="mb-14">
 
-        {/* LEFT */}
-        <div className="lg:col-span-2 space-y-6">
+          <p className="uppercase tracking-[0.3em] text-violet-500 font-semibold text-sm mb-4">
+            Shopping Cart
+          </p>
 
-          {cartItems.map((item) => (
-
-            <div
-              key={item.id}
-              className="border border-zinc-200 rounded-xl p-6 flex flex-col md:flex-row gap-6 shadow-sm bg-white"
-            >
-
-              {/* IMAGE */}
-              <div className="bg-zinc-100 rounded-full p-4 flex items-center justify-center">
-                <img
-                  src={item.thumbnail}
-                  alt={item.title}
-                  className="w-40 h-40 object-contain"
-                />
-              </div>
-
-              {/* CONTENT */}
-              <div className="flex-1 flex flex-col justify-between">
-
-                <div>
-
-                  <h2 className="text-2xl font-semibold line-clamp-2">
-                    {item.title}
-                  </h2>
-
-                  <p className="text-zinc-500 mt-3">
-                    Premium product with modern design.
-                  </p>
-
-                </div>
-
-                {/* BOTTOM */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-6">
-
-                  {/* QUANTITY */}
-                  <div className="flex items-center gap-3">
-
-                    <button
-                      onClick={() => decreaseQuantity(item.id)}
-                      className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-zinc-100 transition"
-                    >
-                      <Minus size={18} />
-                    </button>
-
-                    <span className="text-xl font-semibold w-8 text-center">
-                      {item.quantity}
-                    </span>
-
-                    <button
-                      onClick={() => increaseQuantity(item.id)}
-                      className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-zinc-100 transition"
-                    >
-                      <Plus size={18} />
-                    </button>
-
-                  </div>
-
-                  {/* PRICE + REMOVE */}
-                  <div className="flex items-center gap-6">
-
-                    <p className="text-2xl font-bold">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </p>
-
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:text-red-700 transition"
-                    >
-                      <Trash2 size={22} />
-                    </button>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          ))}
+          <h1 className="text-5xl font-semibold text-zinc-900">
+            Review Your Order
+          </h1>
 
         </div>
 
-        {/* RIGHT SUMMARY */}
-        <div className="border border-zinc-200 rounded-xl p-8 shadow-sm h-fit sticky top-24 bg-white">
+        <div className="grid lg:grid-cols-3 gap-10 items-start">
 
-          <h2 className="text-3xl font-bold mb-8">
-            Order Summary
-          </h2>
+          {/* LEFT SIDE */}
+          <div className="lg:col-span-2 space-y-6">
 
-          <div className="space-y-5 mb-8">
+            {cartItems.map((item) => (
 
-            <div className="flex justify-between text-zinc-600">
-              <span>Subtotal</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
+              <div
+                key={item.id}
+                className="group bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+              >
 
-            <div className="flex justify-between text-zinc-600">
-              <span>Shipping</span>
-              <span>$10.00</span>
-            </div>
+                <div className="flex flex-col md:flex-row gap-8">
 
-            <div className="flex justify-between text-zinc-600">
-              <span>Tax</span>
-              <span>$5.00</span>
-            </div>
+                  {/* IMAGE */}
+                  <div className="bg-gradient-to-b from-zinc-100 to-zinc-50 rounded-3xl p-6 flex items-center justify-center min-w-[180px]">
+
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-40 h-40 object-contain transition duration-500 group-hover:scale-105"
+                    />
+
+                  </div>
+
+                  {/* CONTENT */}
+                  <div className="flex-1 flex flex-col justify-between">
+
+                    <div>
+
+                      <p className="uppercase tracking-[0.25em] text-xs text-violet-500 font-semibold mb-3">
+                        Premium Product
+                      </p>
+
+                      <h2 className="text-2xl font-semibold leading-snug line-clamp-2">
+                        {item.title}
+                      </h2>
+
+                      <p className="text-zinc-500 leading-7 mt-4">
+                        Premium modern product with high quality materials and elegant design.
+                      </p>
+
+                    </div>
+
+                    {/* BOTTOM */}
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mt-8">
+
+                      {/* QUANTITY */}
+                      <div className="flex items-center gap-4">
+
+                        <div className="flex items-center border border-zinc-300 rounded-2xl overflow-hidden bg-zinc-50">
+
+                          <button
+                            onClick={() => decreaseQuantity(item.id)}
+                            className="w-12 h-12 flex items-center justify-center hover:bg-zinc-100 transition"
+                          >
+                            <Minus size={18} />
+                          </button>
+
+                          <span className="w-14 text-center font-semibold text-lg">
+                            {item.quantity}
+                          </span>
+
+                          <button
+                            onClick={() => increaseQuantity(item.id)}
+                            className="w-12 h-12 flex items-center justify-center hover:bg-zinc-100 transition"
+                          >
+                            <Plus size={18} />
+                          </button>
+
+                        </div>
+
+                      </div>
+
+                      {/* PRICE */}
+                      <div className="flex items-center gap-6">
+
+                        <div className="text-right">
+
+                          <p className="text-sm text-zinc-400">
+                            Total Price
+                          </p>
+
+                          <p className="text-3xl font-bold text-zinc-900">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </p>
+
+                        </div>
+
+                        {/* REMOVE */}
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="w-12 h-12 rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition flex items-center justify-center"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))}
 
           </div>
 
-          <div className="border-t pt-5 flex justify-between text-2xl font-bold mb-8">
+          {/* RIGHT SUMMARY */}
+          <div className="sticky top-24">
 
-            <span>Total</span>
+            <div className="bg-white border border-zinc-200 rounded-3xl p-8 shadow-sm">
 
-            <span>
-              ${(total + 10 + 5).toFixed(2)}
-            </span>
+              <h2 className="text-3xl font-semibold mb-10">
+                Order Summary
+              </h2>
+
+              {/* SUMMARY */}
+              <div className="space-y-6">
+
+                <div className="flex justify-between text-zinc-600">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between text-zinc-600">
+                  <span>Shipping</span>
+                  <span>${shipping.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between text-zinc-600">
+                  <span>Tax</span>
+                  <span>${tax.toFixed(2)}</span>
+                </div>
+
+              </div>
+
+              {/* TOTAL */}
+              <div className="border-t border-zinc-200 mt-8 pt-8 flex justify-between items-center">
+
+                <span className="text-2xl font-semibold">
+                  Total
+                </span>
+
+                <span className="text-4xl font-bold">
+                  ${total.toFixed(2)}
+                </span>
+
+              </div>
+
+              {/* BUTTON */}
+              <Link
+                href="/checkout"
+                className="mt-10 flex items-center justify-center gap-3 bg-black text-white py-5 rounded-2xl hover:bg-zinc-800 transition text-lg font-medium shadow-lg shadow-black/10"
+              >
+                Proceed to Checkout
+
+                <ArrowRight size={22} />
+              </Link>
+
+              {/* Security */}
+              <div className="mt-8 border-t border-zinc-200 pt-6">
+
+                <div className="flex items-center gap-3 text-zinc-500 text-sm">
+                  🔒 Secure SSL encrypted checkout
+                </div>
+
+                <div className="flex items-center gap-3 text-zinc-500 text-sm mt-3">
+                  🚚 Free shipping on orders over $100
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
-
-          <Link
-            href="/checkout"
-            className="block text-center bg-black text-white py-4 rounded-full hover:bg-zinc-800 transition text-lg font-medium"
-          >
-            Proceed to Checkout
-          </Link>
 
         </div>
 

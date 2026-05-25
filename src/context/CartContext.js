@@ -1,6 +1,10 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+} from "react";
 
 const CartContext = createContext();
 
@@ -8,36 +12,82 @@ export function CartProvider({ children }) {
 
   const [cartItems, setCartItems] = useState([]);
 
+  /* ADD TO CART */
   const addToCart = (product) => {
 
-    const existingItem = cartItems.find(
-      (item) => item.id === product.id
+    setCartItems((prev) => {
+
+      const existingItem = prev.find(
+        (item) => item.id === product.id
+      );
+
+      /* IF PRODUCT EXISTS */
+      if (existingItem) {
+
+        return prev.map((item) =>
+
+          item.id === product.id
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + (product.quantity || 1),
+              }
+            : item
+        );
+      }
+
+      /* NEW PRODUCT */
+      return [
+        ...prev,
+        {
+          ...product,
+          quantity: product.quantity || 1,
+        },
+      ];
+    });
+  };
+
+  /* REMOVE */
+  const removeFromCart = (id) => {
+
+    setCartItems((prev) =>
+      prev.filter((item) => item.id !== id)
     );
+  };
 
-    if (existingItem) {
+  /* INCREASE */
+  const increaseQuantity = (id) => {
 
-      const updatedCart = cartItems.map((item) =>
-        item.id === product.id
+    setCartItems((prev) =>
+      prev.map((item) =>
+
+        item.id === id
           ? {
               ...item,
               quantity: item.quantity + 1,
             }
           : item
-      );
+      )
+    );
+  };
 
-      setCartItems(updatedCart);
+  /* DECREASE */
+  const decreaseQuantity = (id) => {
 
-    } else {
+    setCartItems((prev) =>
+      prev.map((item) =>
 
-      setCartItems([
-        ...cartItems,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ]);
-
-    }
+        item.id === id
+          ? {
+              ...item,
+              quantity:
+                item.quantity > 1
+                  ? item.quantity - 1
+                  : 1,
+            }
+          : item
+      )
+    );
   };
 
   return (
@@ -45,11 +95,18 @@ export function CartProvider({ children }) {
       value={{
         cartItems,
         addToCart,
+        removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
       }}
     >
+
       {children}
+
     </CartContext.Provider>
   );
 }
 
-export const useCart = () => useContext(CartContext);
+export function useCart() {
+  return useContext(CartContext);
+}
