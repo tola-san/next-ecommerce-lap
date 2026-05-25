@@ -1,15 +1,18 @@
 
 ## Getting Started
 
-First, run the development server:
+## First, run the development server:
 
 
-#### git clone project from Github
+### 1. git clone project from Github
 
 ``` bash
-git clone 
+git clone https://github.com/tola-san/next-ecommerce-lap.git
 ````
-
+### 2. open Command Line interface or Terminal 
+``` bash
+cd next-ecommerce-lap
+```
 
 ```bash
 npm run dev
