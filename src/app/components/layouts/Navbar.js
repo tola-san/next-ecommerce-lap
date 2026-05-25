@@ -5,7 +5,7 @@ import { Search, ShoppingCart, Menu, User } from 'lucide-react';
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-zinc-100/20 backdrop-blur-sm border-b border-zinc-300  shadow-sm">
-      <div className="max-w-7xl mx-auto px-14 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">

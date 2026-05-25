@@ -1,50 +1,40 @@
-import { Geist, Geist_Mono, Poppins, Kantumruy_Pro } from "next/font/google";
+import { Poppins } from "next/font/google";
+
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
-import {CartProvider} from "@/context/CartContext";
+
+import { CartProvider } from "@/context/CartContext";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 const poppins = Poppins({
-  variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata = {
-  title: "Ecomlap",                    // ← Change to your name
+  title: "Ecomlap",
   description: "Full-Stack Developer & Systems Architect",
-  icons: {
-    icon: [
-      { url: "../shopping-bag.png", sizes: "any" },     // This is correct now
-    
-    ],
-    shortcut: "../shopping-bag.png",
-    apple: "../shopping-bag.png",                       // For iPhone/iPad
-  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.className} h-full`}>
-      <body className="min-h-full flex flex-col ">
+    <html lang="en" className="h-full">
+
+      <body
+        className={`${poppins.className} min-h-full flex flex-col`}
+      >
+
         <Navbar />
+
         <CartProvider>
           {children}
         </CartProvider>
+
         <Footer />
 
       </body>
+
     </html>
   );
 }
