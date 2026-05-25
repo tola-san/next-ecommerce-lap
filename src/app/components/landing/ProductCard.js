@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
     <div
       className="
         group flex flex-col h-full
-        overflow-hidden rounded-3xl
+        overflow-hidden rounded-xl
         bg-white border border-zinc-200
         shadow-sm transition-all duration-300
         hover:-translate-y-1 hover:shadow-xl
@@ -25,10 +25,10 @@ export default function ProductCard({ product }) {
         <div
           className="
             relative flex items-center justify-center
-            h-44 sm:h-56
+            h-40 sm:h-48
             overflow-hidden
             bg-gradient-to-b from-zinc-100 to-zinc-50
-            p-4 sm:p-6
+            p-4 sm:p-4
           "
         >
 
@@ -36,7 +36,7 @@ export default function ProductCard({ product }) {
           <span
             className="
               absolute left-3 top-3 z-20
-              rounded-full bg-black
+              rounded-xl bg-black
               px-3 py-1
               text-[10px] sm:text-xs
               font-medium tracking-wide
@@ -51,7 +51,7 @@ export default function ProductCard({ product }) {
             className="
               absolute right-3 top-3 z-20
               flex h-8 w-8 items-center justify-center
-              rounded-full bg-white/90
+              rounded-xl bg-white/90
               text-zinc-700 shadow-sm
               transition hover:scale-110
             "
@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
           <div
             className="
               absolute h-28 w-28 sm:h-40 sm:w-40
-              rounded-full bg-cyan-100/60
+              rounded-xl
             "
           />
 
@@ -71,7 +71,7 @@ export default function ProductCard({ product }) {
           <Image
             src={product.thumbnail}
             alt={product.title}
-            width={240}
+            width={250}
             height={240}
             className="
               relative z-10
@@ -87,7 +87,7 @@ export default function ProductCard({ product }) {
       </Link>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
+      <div className="flex flex-1 flex-col p-4 sm:p-2">
 
         {/* Category */}
         <p
@@ -112,7 +112,7 @@ export default function ProductCard({ product }) {
               font-bold leading-snug
               text-zinc-900
               transition group-hover:text-zinc-700
-              line-clamp-2
+              line-clamp-1
             "
           >
             {product.title}
@@ -121,15 +121,11 @@ export default function ProductCard({ product }) {
         </Link>
 
         {/* Description */}
-        <p
-          className="
-            mt-2 hidden sm:block
-            text-sm leading-6
-            text-zinc-500 line-clamp-2
-          "
-        >
-          {product.description}
-        </p>
+         <p className="mt-1 text-sm text-zinc-600">
+  {product.description.length > 60
+    ? product.description.slice(0, 40) + "..."
+    : product.description}
+</p>
 
         {/* Price */}
         <div className="mt-4 flex items-end justify-between">
@@ -198,7 +194,7 @@ export default function ProductCard({ product }) {
             <span className="sm:hidden">
               <FaPlus className="text-sm" />
             </span>
-
+      
             {/* Tablet/Desktop */}
             <span className="hidden sm:flex items-center gap-2">
               <FaShoppingCart className="text-sm" />
@@ -209,25 +205,7 @@ export default function ProductCard({ product }) {
 
           </button>
 
-          {/* View */}
-          <Link
-            href={`/products/${product.id}`}
-            className="
-              flex h-10 sm:h-12
-              items-center justify-center
-              rounded-xl sm:rounded-2xl
-              border border-zinc-300
-              px-4 sm:px-5
-              text-xs sm:text-sm
-              font-medium text-zinc-700
-              transition-all duration-300
-              hover:border-zinc-400
-              hover:bg-zinc-100
-            "
-          >
-
-            View
-          </Link>
+        
 
         </div>
 

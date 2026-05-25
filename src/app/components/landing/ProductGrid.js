@@ -13,7 +13,7 @@ export default async function ProductGrid() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
+    <section className="max-w-7xl mx-auto p">
       <h2 className="text-3xl font-bold mb-8">
         Featured Products
       </h2>
