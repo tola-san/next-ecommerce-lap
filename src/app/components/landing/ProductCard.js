@@ -225,6 +225,7 @@ export default function ProductCard({ product }) {
               hover:bg-zinc-100
             "
           >
+
             View
           </Link>
 
