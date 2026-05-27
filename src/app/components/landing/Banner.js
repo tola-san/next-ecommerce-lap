@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen flex items-center overflow-hidden rounded-2xl">
+    <section className="relative w-full h-screen flex items-center overflow-hidden ">
       {/* Full Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"

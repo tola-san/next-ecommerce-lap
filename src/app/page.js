@@ -1,5 +1,7 @@
+import { Link } from "lucide-react";
 import Hero from "./components/landing/Banner";
 import ProductGrid from "./components/landing/ProductGrid";
+
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +20,7 @@ export default function Home() {
       {/* Bottom CTA */}
       <section className="px-4 pb-16">
 
-        <div className="mx-auto max-w-3xl rounded-3xl bg-white border border-zinc-200 p-8 sm:p-12 text-center shadow-sm">
+        <div className="mx-auto max-w-7xl rounded-xl bg-white border border-zinc-200 p-8 sm:p-12 text-center shadow-sm">
 
           <h2 className="text-2xl sm:text-4xl font-bold text-zinc-900 leading-tight">
             Discover Premium Products
@@ -29,10 +31,15 @@ export default function Home() {
             premium quality, and unbeatable prices.
           </p>
 
-          <button className="mt-8 rounded-2xl bg-black px-8 py-3 text-sm sm:text-base font-medium text-white transition hover:bg-zinc-800 active:scale-95">
+{/*          
+            <button href="/products" className="mt-8 rounded-2xl bg-black px-8 py-3 text-sm sm:text-base font-medium text-white transition hover:bg-zinc-800 active:scale-95">
             Start Shopping
-          </button>
+          </button> */}
 
+             <Link href="/products"  className="mt-8 rounded-2xl bg-black px-8 py-3 text-sm sm:text-base font-medium text-white transition hover:bg-zinc-800 active:scale-95">
+                Start Shopping
+             </Link> 
+        
         </div>
 
       </section>
