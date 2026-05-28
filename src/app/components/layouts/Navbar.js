@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Search,
   ShoppingCart,
   Menu,
-  User,
   X,
 } from "lucide-react";
 
@@ -24,7 +23,10 @@ export default function Navbar() {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
     };
   }, []);
 
@@ -32,42 +34,72 @@ export default function Navbar() {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
     }
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
     };
   }, [open]);
 
+  // Close menu on route change / escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, []);
+
   return (
     <>
+      {/* Navbar */}
       <nav
         className="
-          sticky top-0 z-50
-          border-b border-white/30
-          bg-white/20
+          fixed top-0 left-0 right-0
+          z-[100]
+          border-b border-white/20
+          bg-white/80
           backdrop-blur-xl
-          shadow-sm 
+          shadow-sm
         "
       >
         <div
           className="
             mx-auto
             flex
+            h-[76px]
             max-w-7xl
-            items-center 
+            items-center
             justify-between
-            py-4 px-4
-            
+            px-4
           "
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-3"
+          >
             <div
               className="
-                flex h-10 w-10 items-center justify-center
+                flex h-10 w-10
+                items-center justify-center
                 rounded-2xl
                 bg-gradient-to-br
                 from-black
@@ -80,12 +112,18 @@ export default function Navbar() {
               </span>
             </div>
 
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+            <h1
+              className="
+                text-2xl font-bold
+                tracking-tight
+                text-zinc-900
+              "
+            >
               zada
             </h1>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Menu */}
           <div
             className="
               hidden md:flex
@@ -98,32 +136,43 @@ export default function Navbar() {
               backdrop-blur-lg
             "
           >
-            {["Home", "Shop", "Categories", "About"].map(
-              (item, index) => (
-                <Link
-                  key={index}
-                  href={
-                    item === "Home"
-                      ? "/"
-                      : `/${item.toLowerCase()}`
-                  }
-                  className="
-                    rounded-full
-                    px-4 py-2
-                    transition-all duration-300
-                    hover:bg-zinc-900
-                    hover:text-white
-                  "
-                >
-                  {item}
-                </Link>
-              )
-            )}
+            {[
+              {
+                name: "Home",
+                href: "/",
+              },
+              {
+                name: "Shop",
+                href: "/shop",
+              },
+              {
+                name: "Categories",
+                href: "/categories",
+              },
+              {
+                name: "About",
+                href: "/about",
+              },
+            ].map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="
+                  rounded-full
+                  px-4 py-2
+                  transition-all duration-300
+                  hover:bg-zinc-900
+                  hover:text-white
+                "
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
-          {/* Right Side */}
+          {/* Right */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search */}
+            {/* Desktop Search */}
             <div className="relative hidden lg:block w-72">
               <Search
                 size={18}
@@ -151,21 +200,6 @@ export default function Navbar() {
               />
             </div>
 
-            {/* User */}
-            {/* <button
-              className="
-                rounded-full
-                border border-zinc-200
-                p-2
-                text-zinc-700
-                transition-all
-                hover:bg-zinc-900
-                hover:text-white
-              "
-            >
-              <User size={20} />
-            </button> */}
-
             {/* Cart */}
             <Link
               href="/cart"
@@ -173,6 +207,7 @@ export default function Navbar() {
                 relative
                 rounded-full
                 border border-zinc-200
+                bg-white
                 p-2
                 text-zinc-700
                 transition-all
@@ -185,7 +220,8 @@ export default function Navbar() {
               <span
                 className="
                   absolute -right-1 -top-1
-                  flex h-5 w-5 items-center justify-center
+                  flex h-5 w-5
+                  items-center justify-center
                   rounded-full
                   bg-red-500
                   text-xs font-medium text-white
@@ -195,13 +231,14 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Mobile Toggle */}
+            {/* Mobile Button */}
             <button
               onClick={() => setOpen(true)}
               className="
                 md:hidden
                 rounded-full
                 border border-zinc-200
+                bg-white
                 p-2
                 text-zinc-700
                 transition-all
@@ -214,11 +251,15 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Spacer */}
+      <div className="h-[76px]" />
+
       {/* Overlay */}
       <div
         onClick={() => setOpen(false)}
         className={`
-          fixed inset-0 z-40
+          fixed inset-0
+          z-[90]
           bg-black/50
           backdrop-blur-sm
           transition-all duration-300
@@ -231,17 +272,23 @@ export default function Navbar() {
         `}
       />
 
-      {/* Offcanvas */}
+      {/* Mobile Menu */}
       <div
         className={`
-          fixed top-0 right-0 z-50
+          fixed top-0 right-0
+          z-[110]
           h-[100dvh]
-          w-[85%] max-w-[340px]
+          w-[85%]
+          max-w-[340px]
           bg-white
           shadow-2xl
-          transition-transform duration-300 ease-in-out
+          transition-transform
+          duration-300
+          ease-in-out
           md:hidden
           flex flex-col
+          overflow-y-auto
+          overscroll-contain
           ${
             open
               ? "translate-x-0"
@@ -250,7 +297,14 @@ export default function Navbar() {
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b p-5">
+        <div
+          className="
+            flex items-center
+            justify-between
+            border-b
+            p-5
+          "
+        >
           <h2 className="text-lg font-bold">
             Menu
           </h2>
@@ -268,8 +322,8 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Search Mobile */}
-        <div className="p-5 border-b">
+        {/* Mobile Search */}
+        <div className="border-b p-5">
           <div className="relative">
             <Search
               size={18}
@@ -290,18 +344,31 @@ export default function Navbar() {
                 py-3 pl-11 pr-4
                 text-sm
                 outline-none
+                focus:border-zinc-400
               "
             />
           </div>
         </div>
 
-        {/* Mobile Links */}
+        {/* Links */}
         <div className="flex flex-col p-5">
           {[
-            { name: "Home", href: "/" },
-            { name: "Shop", href: "/products" },
-            { name: "Categories", href: "/categories" },
-            { name: "About", href: "/about" },
+            {
+              name: "Home",
+              href: "/",
+            },
+            {
+              name: "Shop",
+              href: "/shop",
+            },
+            {
+              name: "Categories",
+              href: "/categories",
+            },
+            {
+              name: "About",
+              href: "/about",
+            },
           ].map((item, index) => (
             <Link
               key={index}
@@ -310,7 +377,8 @@ export default function Navbar() {
               className="
                 rounded-xl
                 px-4 py-3
-                text-base font-medium
+                text-base
+                font-medium
                 text-zinc-700
                 transition-all
                 hover:bg-zinc-100
@@ -319,6 +387,13 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
+        </div>
+
+        {/* Bottom */}
+        <div className="mt-auto border-t p-5">
+          <p className="text-sm text-zinc-500">
+            © 2026 Lazada Store
+          </p>
         </div>
       </div>
     </>
