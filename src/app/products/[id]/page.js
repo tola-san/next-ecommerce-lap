@@ -26,7 +26,7 @@ export default async function ProductDetailPage({ params }) {
           <div className="space-y-6">
 
             {/* Main Image */}
-            <div className="relative bg-white border border-zinc-200 rounded-3xl p-10 shadow-sm overflow-hidden">
+            <div className="relative bg-white border border-zinc-200 rounded-2xl p-10 shadow-sm overflow-hidden">
 
               {/* Badge */}
               <span className="absolute top-6 left-6 bg-black text-white text-xs px-4 py-2 rounded-full uppercase tracking-wider font-medium">
@@ -128,8 +128,8 @@ export default async function ProductDetailPage({ params }) {
               {/* Shipping */}
               <div className="bg-white border border-zinc-200 rounded-2xl p-5 text-center shadow-sm">
 
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center mx-auto mb-4">
-                  <FaTruck className="text-zinc-700" />
+                <div className="w-12 h-12 rounded-2xl bg-blue-400/20 flex items-center justify-center mx-auto mb-4">
+                  <FaTruck className="text-blue-500" />
                 </div>
 
                 <h3 className="font-semibold">
@@ -145,8 +145,8 @@ export default async function ProductDetailPage({ params }) {
               {/* Secure */}
               <div className="bg-white border border-zinc-200 rounded-2xl p-5 text-center shadow-sm">
 
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center mx-auto mb-4">
-                  <FaShieldAlt className="text-zinc-700" />
+                <div className="w-12 h-12 rounded-2xl bg-green-400/20 flex items-center justify-center mx-auto mb-4">
+                  <FaShieldAlt className="text-green-500" />
                 </div>
 
                 <h3 className="font-semibold">
@@ -162,8 +162,8 @@ export default async function ProductDetailPage({ params }) {
               {/* Returns */}
               <div className="bg-white border border-zinc-200 rounded-2xl p-5 text-center shadow-sm">
 
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center mx-auto mb-4">
-                  <FaUndo className="text-zinc-700" />
+                <div className="w-12 h-12 rounded-2xl bg-purple-400/20 flex items-center justify-center mx-auto mb-4">
+                  <FaUndo className="text-purple-500" />
                 </div>
 
                 <h3 className="font-semibold">

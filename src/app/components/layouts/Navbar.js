@@ -1,62 +1,375 @@
-// src/app/components/layouts/Navbar.js
-import Link from 'next/link';
-import { Search, ShoppingCart, Menu, User } from 'lucide-react';
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useEffect } from "react";
+import {
+  Search,
+  ShoppingCart,
+  Menu,
+  User,
+  X,
+} from "lucide-react";
 
 export default function Navbar() {
+  
+  const [open, setOpen] = useState(false);
+
+  
+useEffect(() => {
+  if (open) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [open]);
+
   return (
-    <nav className="sticky top-0 z-50 bg-zinc-100/20 backdrop-blur-sm border-b border-zinc-300  shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gradient-to-br from-black to-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/30">
-            <span className="text-white text-2xl font-bold tracking-tighter">M</span>
-          </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-            Odex
-          </h1>
-        </Link>
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 text-sm text-gray-800 bg-white/60 border border-zinc-300 p-1 px-4 rounded-full">
-          <Link href="/" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full ">Home</Link>
-          <Link href="/products" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors  p-1 px-4 rounded-full">Shop</Link>
-          <Link href="/categories" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors p-1 px-4 rounded-full">Categories</Link>
-          <Link href="/about" className="nav-link hover:text-zinc-200 hover:bg-zinc-800 transition-colors  p-1 px-4 rounded-full">About</Link>
-        </div>
-
-        {/* Right Side */}
-        <div className="flex items-center gap-3">
-          
-          {/* Search Bar */}
-          <div className="hidden sm:block relative w-72">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-200">
-              <Search size={20} />
+    <>
+      <nav
+        className="
+          sticky top-0 z-50
+          border-b border-white/10
+          bg-white/70
+          backdrop-blur-xl
+          shadow-sm overflow-x-hidden
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            max-w-7xl
+            items-center
+            justify-between
+            px-4 py-4
+          "
+        >
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div
+              className="
+                flex h-10 w-10 items-center justify-center
+                rounded-2xl
+                bg-gradient-to-br
+                from-black
+                to-violet-500
+                shadow-lg
+              "
+            >
+              <span className="text-xl font-black text-white">
+                La
+              </span>
             </div>
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full bg-white/60  border border-zinc-200 focus:border-zinc-400 rounded-full py-2 pl-11 pr-4 text-sm focus:outline-none transition-all shadow-inner"
-            />
-          </div>
 
-          {/* Icons */}
-          <button className="p-2  hover:bg-zinc-800 cursor-pointer rounded-full transition-all text-gray-700 border border-zinc-300">
-            <User size={22} />
-          </button>
-
-          <Link href="/cart" className="p-2 hover:bg-zinc-800 rounded-full transition-all text-gray-700 border border-zinc-300 relative">
-            <ShoppingCart size={22} />
-            <span className="absolute -top-1 -right-1 bg-rose-500/30 border border-red-500 text-red-500 text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center  ">
-              3
-            </span>
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+              zada
+            </h1>
           </Link>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden p-2 hover:bg-zinc-800 rounded-full transition-all text-gray-700 border border-zinc-300">
-            <Menu size={24} />
+          {/* Desktop Navigation */}
+          <div
+            className="
+              hidden md:flex
+              items-center gap-2
+              rounded-full
+              border border-zinc-200
+              bg-white/70
+              p-1 px-4
+              text-sm
+              backdrop-blur-lg
+            "
+          >
+            <Link
+              href="/"
+              className="
+                rounded-full
+                px-4 py-2
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/products"
+              className="
+                rounded-full
+                px-4 py-2
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              Shop
+            </Link>
+
+            <Link
+              href="/categories"
+              className="
+                rounded-full
+                px-4 py-2
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              Categories
+            </Link>
+
+            <Link
+              href="/about"
+              className="
+                rounded-full
+                px-4 py-2
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              About
+            </Link>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Search */}
+            <div className="relative hidden lg:block w-72">
+              <Search
+                size={18}
+                className="
+                  absolute left-4 top-1/2
+                  -translate-y-1/2
+                  text-zinc-400
+                "
+              />
+
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="
+                  w-full
+                  rounded-full
+                  border border-zinc-200
+                  bg-white/80
+                  py-2 pl-11 pr-4
+                  text-sm
+                  outline-none
+                  transition-all
+                  focus:border-zinc-400
+                "
+              />
+            </div>
+
+            {/* User */}
+            <button
+              className="
+                rounded-full
+                border border-zinc-200
+                p-2
+                text-zinc-700
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              <User size={20} />
+            </button>
+
+            {/* Cart */}
+            <Link
+              href="/cart"
+              className="
+                relative
+                rounded-full
+                border border-zinc-200
+                p-2
+                text-zinc-700
+                transition-all
+                hover:bg-zinc-900
+                hover:text-white
+              "
+            >
+              <ShoppingCart size={20} />
+
+              <span
+                className="
+                  absolute -right-1 -top-1
+                  flex h-5 w-5 items-center justify-center
+                  rounded-full
+                  bg-red-500
+                  text-xs font-medium text-white
+                "
+              >
+                3
+              </span>
+            </Link>
+
+            {/* Mobile Toggle */}
+            <button
+              onClick={() => setOpen(true)}
+              className="
+                md:hidden
+                rounded-full
+                border border-zinc-200
+                p-2
+                text-zinc-700
+              "
+            >
+              <Menu size={22} />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Overlay */}
+     {/* Overlay */}
+<div
+  onClick={() => setOpen(false)}
+  className={`
+    fixed inset-0 z-40
+    bg-black/40
+    backdrop-blur-sm
+    transition-all duration-300
+    ${
+      open
+        ? "visible opacity-100"
+        : "invisible opacity-0 pointer-events-none"
+    }
+  `}
+/>
+
+      
+     {/* Mobile Offcanvas */}
+<div
+  className={`
+    fixed top-0 right-0 z-50
+    h-screen
+    w-[85%] max-w-[320px]
+    overflow-y-auto
+    bg-white
+    shadow-2xl
+    transition-transform duration-300
+    ${open ? "translate-x-0" : "translate-x-full"}
+  `}
+>
+        {/* Header */}
+        <div
+          className="
+            flex items-center justify-between
+            border-b border-zinc-200
+            p-5
+          "
+        >
+          <h2 className="text-xl font-bold">
+            Menu
+          </h2>
+
+          <button
+            onClick={() => setOpen(false)}
+            className="
+              rounded-full
+              p-2
+              hover:bg-zinc-100
+            "
+          >
+            <X size={22} />
           </button>
         </div>
+
+        {/* Search */}
+        <div className="p-5">
+          <div className="relative">
+            <Search
+              size={18}
+              className="
+                absolute left-4 top-1/2
+                -translate-y-1/2
+                text-zinc-400
+              "
+            />
+
+            <input
+              type="text"
+              placeholder="Search..."
+              className="
+                w-full
+                rounded-2xl
+                border border-zinc-200
+                py-3 pl-11 pr-4
+                outline-none
+              "
+            />
+          </div>
+        </div>
+
+        {/* Mobile Links */}
+        <div className="flex flex-col px-5">
+          
+          <Link
+            href="/"
+            className="
+              rounded-2xl
+              px-4 py-3
+              text-lg font-medium
+              transition-all
+              hover:bg-zinc-100
+            "
+            onClick={() => setOpen(false)}
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/products"
+            className="
+              rounded-2xl
+              px-4 py-3
+              text-lg font-medium
+              transition-all
+              hover:bg-zinc-100
+            "
+            onClick={() => setOpen(false)}
+          >
+            Shop
+          </Link>
+
+          <Link
+            href="/categories"
+            className="
+              rounded-2xl
+              px-4 py-3
+              text-lg font-medium
+              transition-all
+              hover:bg-zinc-100
+            "
+            onClick={() => setOpen(false)}
+          >
+            Categories
+          </Link>
+
+          <Link
+            href="/about"
+            className="
+              rounded-2xl
+              px-4 py-3
+              text-lg font-medium
+              transition-all
+              hover:bg-zinc-100
+            "
+            onClick={() => setOpen(false)}
+          >
+            About
+          </Link>
+        </div>
       </div>
-    </nav>
+    </>
   );
 }

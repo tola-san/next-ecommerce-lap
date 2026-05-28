@@ -1,22 +1,8 @@
 import Link from "next/link";
 import { getCategories } from "@/services/categoryApi";
+import { BsBag } from "react-icons/bs";
 
-/* FETCH CATEGORIES */
-// async function getCategories() {
 
-//   const res = await fetch(
-//     "https://dummyjson.com/products/categories",
-//     {
-//       cache: "no-store",
-//     }
-//   );
-
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch categories");
-//   }
-
-//   return res.json();
-// }
 
 export default async function CategoriesPage() {
 
@@ -65,7 +51,7 @@ export default async function CategoriesPage() {
                 {/* Icon */}
                 <div className="w-16 h-16 rounded-2xl bg-black text-white flex items-center justify-center text-2xl mb-8 shadow-lg">
 
-                  🛍️
+                  <BsBag />
 
                 </div>
 

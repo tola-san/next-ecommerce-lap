@@ -15,7 +15,7 @@ export default function Footer() {
           
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl  to-blue-500 font-semibold text-white tracking-tight">Odex</h3>
+            <h3 className="text-2xl  to-blue-500 font-semibold text-white tracking-tight">Lazada</h3>
             <p className="text-sm leading-relaxed">
               Premium products with exceptional quality. 
               Shop smarter, live better.

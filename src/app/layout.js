@@ -22,8 +22,8 @@ export default function RootLayout({ children }) {
     <html lang="en" className="h-full">
 
       <body
-        className={`${poppins.className} min-h-full flex flex-col`}
-      >
+        className={`${poppins.className} min-h-full flex flex-col bg-white/30 backdrop-blur-lg`}
+      > 
 
         <Navbar />
 

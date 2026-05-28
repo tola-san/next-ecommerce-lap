@@ -51,27 +51,16 @@ export default function ProductCard({ product }) {
           <span
             className="
               absolute left-2 top-2 z-20
-              rounded-lg bg-black
+              rounded-lg bg-rose-500/20
               px-2 py-1
               text-[10px] sm:text-xs
-              font-medium text-white
+              font-medium text-red-400 border border-red-300
             "
           >
             {product.stock > 0 ? "New" : "Sold Out"}
           </span>
 
-          {/* Wishlist */}
-          <button
-            className="
-              absolute right-2 top-2 z-20
-              flex h-8 w-8 items-center justify-center
-              rounded-3xl 
-              text-zinc-700 shadow-sm backdrop-blur-sm
-              transition hover:scale-110
-            "
-          >
-            <FaHeart className="text-xs" />
-          </button>
+          
 
           {/* Product Image */}
           <Image
@@ -126,7 +115,7 @@ export default function ProductCard({ product }) {
 
     {/* Price */}
     <div className="mt-3">
-      <p className="text-xs text-zinc-400 line-through">
+      <p className="text-xs text-green-500 line-through">
         ${(product.price + 20).toFixed(2)}
       </p>
 
@@ -142,7 +131,7 @@ export default function ProductCard({ product }) {
       onClick={() => addToCart(product)}
       className={`
         flex items-center justify-center gap-2
-        h-10 sm:h-11
+        h-10 sm:h-11 cursor-pointer
         ${isMobile ? "w-10" : "w-full px-4"}
         rounded-full
         bg-black
