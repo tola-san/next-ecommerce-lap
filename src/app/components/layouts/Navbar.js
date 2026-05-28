@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useEffect } from "react";
 import {
   Search,
   ShoppingCart,
@@ -12,31 +11,45 @@ import {
 } from "lucide-react";
 
 export default function Navbar() {
-  
   const [open, setOpen] = useState(false);
 
-  
-useEffect(() => {
-  if (open) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+  // Close menu on desktop resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setOpen(false);
+      }
+    };
 
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [open]);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Lock body scroll
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
 
   return (
     <>
       <nav
         className="
           sticky top-0 z-50
-          border-b border-white/10
-          bg-white/70
+          border-b border-white/30
+          bg-white/20
           backdrop-blur-xl
-          shadow-sm overflow-x-hidden
+          shadow-sm 
         "
       >
         <div
@@ -44,9 +57,10 @@ useEffect(() => {
             mx-auto
             flex
             max-w-7xl
-            items-center
+            items-center 
             justify-between
-            px-4 py-4
+            py-4 px-4
+            
           "
         >
           {/* Logo */}
@@ -84,62 +98,31 @@ useEffect(() => {
               backdrop-blur-lg
             "
           >
-            <Link
-              href="/"
-              className="
-                rounded-full
-                px-4 py-2
-                transition-all
-                hover:bg-zinc-900
-                hover:text-white
-              "
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/products"
-              className="
-                rounded-full
-                px-4 py-2
-                transition-all
-                hover:bg-zinc-900
-                hover:text-white
-              "
-            >
-              Shop
-            </Link>
-
-            <Link
-              href="/categories"
-              className="
-                rounded-full
-                px-4 py-2
-                transition-all
-                hover:bg-zinc-900
-                hover:text-white
-              "
-            >
-              Categories
-            </Link>
-
-            <Link
-              href="/about"
-              className="
-                rounded-full
-                px-4 py-2
-                transition-all
-                hover:bg-zinc-900
-                hover:text-white
-              "
-            >
-              About
-            </Link>
+            {["Home", "Shop", "Categories", "About"].map(
+              (item, index) => (
+                <Link
+                  key={index}
+                  href={
+                    item === "Home"
+                      ? "/"
+                      : `/${item.toLowerCase()}`
+                  }
+                  className="
+                    rounded-full
+                    px-4 py-2
+                    transition-all duration-300
+                    hover:bg-zinc-900
+                    hover:text-white
+                  "
+                >
+                  {item}
+                </Link>
+              )
+            )}
           </div>
 
           {/* Right Side */}
           <div className="flex items-center gap-2 sm:gap-3">
-            
             {/* Search */}
             <div className="relative hidden lg:block w-72">
               <Search
@@ -169,7 +152,7 @@ useEffect(() => {
             </div>
 
             {/* User */}
-            <button
+            {/* <button
               className="
                 rounded-full
                 border border-zinc-200
@@ -181,7 +164,7 @@ useEffect(() => {
               "
             >
               <User size={20} />
-            </button>
+            </button> */}
 
             {/* Cart */}
             <Link
@@ -221,6 +204,8 @@ useEffect(() => {
                 border border-zinc-200
                 p-2
                 text-zinc-700
+                transition-all
+                hover:bg-zinc-100
               "
             >
               <Menu size={22} />
@@ -230,45 +215,43 @@ useEffect(() => {
       </nav>
 
       {/* Overlay */}
-     {/* Overlay */}
-<div
-  onClick={() => setOpen(false)}
-  className={`
-    fixed inset-0 z-40
-    bg-black/40
-    backdrop-blur-sm
-    transition-all duration-300
-    ${
-      open
-        ? "visible opacity-100"
-        : "invisible opacity-0 pointer-events-none"
-    }
-  `}
-/>
+      <div
+        onClick={() => setOpen(false)}
+        className={`
+          fixed inset-0 z-40
+          bg-black/50
+          backdrop-blur-sm
+          transition-all duration-300
+          md:hidden
+          ${
+            open
+              ? "opacity-100 visible"
+              : "opacity-0 invisible"
+          }
+        `}
+      />
 
-      
-     {/* Mobile Offcanvas */}
-<div
-  className={`
-    fixed top-0 right-0 z-50
-    h-screen
-    w-[85%] max-w-[320px]
-    overflow-y-auto
-    bg-white
-    shadow-2xl
-    transition-transform duration-300
-    ${open ? "translate-x-0" : "translate-x-full"}
-  `}
->
+      {/* Offcanvas */}
+      <div
+        className={`
+          fixed top-0 right-0 z-50
+          h-[100dvh]
+          w-[85%] max-w-[340px]
+          bg-white
+          shadow-2xl
+          transition-transform duration-300 ease-in-out
+          md:hidden
+          flex flex-col
+          ${
+            open
+              ? "translate-x-0"
+              : "translate-x-full"
+          }
+        `}
+      >
         {/* Header */}
-        <div
-          className="
-            flex items-center justify-between
-            border-b border-zinc-200
-            p-5
-          "
-        >
-          <h2 className="text-xl font-bold">
+        <div className="flex items-center justify-between border-b p-5">
+          <h2 className="text-lg font-bold">
             Menu
           </h2>
 
@@ -277,6 +260,7 @@ useEffect(() => {
             className="
               rounded-full
               p-2
+              transition
               hover:bg-zinc-100
             "
           >
@@ -284,8 +268,8 @@ useEffect(() => {
           </button>
         </div>
 
-        {/* Search */}
-        <div className="p-5">
+        {/* Search Mobile */}
+        <div className="p-5 border-b">
           <div className="relative">
             <Search
               size={18}
@@ -301,9 +285,10 @@ useEffect(() => {
               placeholder="Search..."
               className="
                 w-full
-                rounded-2xl
+                rounded-full
                 border border-zinc-200
                 py-3 pl-11 pr-4
+                text-sm
                 outline-none
               "
             />
@@ -311,63 +296,29 @@ useEffect(() => {
         </div>
 
         {/* Mobile Links */}
-        <div className="flex flex-col px-5">
-          
-          <Link
-            href="/"
-            className="
-              rounded-2xl
-              px-4 py-3
-              text-lg font-medium
-              transition-all
-              hover:bg-zinc-100
-            "
-            onClick={() => setOpen(false)}
-          >
-            Home
-          </Link>
-
-          <Link
-            href="/products"
-            className="
-              rounded-2xl
-              px-4 py-3
-              text-lg font-medium
-              transition-all
-              hover:bg-zinc-100
-            "
-            onClick={() => setOpen(false)}
-          >
-            Shop
-          </Link>
-
-          <Link
-            href="/categories"
-            className="
-              rounded-2xl
-              px-4 py-3
-              text-lg font-medium
-              transition-all
-              hover:bg-zinc-100
-            "
-            onClick={() => setOpen(false)}
-          >
-            Categories
-          </Link>
-
-          <Link
-            href="/about"
-            className="
-              rounded-2xl
-              px-4 py-3
-              text-lg font-medium
-              transition-all
-              hover:bg-zinc-100
-            "
-            onClick={() => setOpen(false)}
-          >
-            About
-          </Link>
+        <div className="flex flex-col p-5">
+          {[
+            { name: "Home", href: "/" },
+            { name: "Shop", href: "/products" },
+            { name: "Categories", href: "/categories" },
+            { name: "About", href: "/about" },
+          ].map((item, index) => (
+            <Link
+              key={index}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="
+                rounded-xl
+                px-4 py-3
+                text-base font-medium
+                text-zinc-700
+                transition-all
+                hover:bg-zinc-100
+              "
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
       </div>
     </>
