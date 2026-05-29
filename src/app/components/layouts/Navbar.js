@@ -143,7 +143,7 @@ export default function Navbar() {
               },
               {
                 name: "Shop",
-                href: "/shop",
+                href: "/products",
               },
               {
                 name: "Categories",

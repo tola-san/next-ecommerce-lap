@@ -21,3 +21,19 @@ body {
   width: 25px !important;
   border-radius: 10px !important;
 }
+
+
+@media (max-width: 640px) {
+          .swiper-pagination {
+            bottom: 15px !important;
+          }
+
+          .swiper-pagination-bullet {
+            width: 8px;
+            height: 8px;
+          }
+
+          .swiper-pagination-bullet-active {
+            width: 22px;
+          }
+        }

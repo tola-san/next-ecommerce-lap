@@ -51,10 +51,10 @@ export default function ProductCard({ product }) {
           <span
             className="
               absolute left-2 top-2 z-20
-              rounded-lg bg-rose-500/20
+              rounded-xl bg-orange-500/20
               px-2 py-1
               text-[10px] sm:text-xs
-              font-medium text-red-400 border border-red-300
+              font-medium text-orange-400 border border-orange-300
             "
           >
             {product.stock > 0 ? "New" : "Sold Out"}
