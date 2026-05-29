@@ -7,9 +7,15 @@ import {
   FaUndo,
 } from "react-icons/fa";
 
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "@/lib/toast";
 import ProductActions from "../ProductActions";
 
 export default async function ProductDetailPage({ params }) {
+
+ 
 
   const { id } = await params;
 

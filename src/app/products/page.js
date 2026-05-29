@@ -1,7 +1,11 @@
 import { getProducts } from "@/services/api";
 import ProductCard from "../components/landing/ProductCard";
+import { showSuccessToast } from "@/lib/toast";
 
 export default async function ProductsPage() {
+
+
+  
 
   const products = await getProducts();
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
+import { showErrorToast } from "@/lib/toast";
 
 import {
   FaCreditCard,
@@ -67,16 +68,15 @@ export default function CheckoutPage() {
       !form.address
     ) {
 
-      alert(
-        "Please fill all required fields."
-      );
 
+      showErrorToast("Please fill all required fields.")
+      
       return;
     }
 
     if (cartItems.length === 0) {
 
-      alert("Cart is empty");
+      showErrorToast("Please fill all required fields.")
 
       return;
     }
@@ -122,24 +122,28 @@ export default function CheckoutPage() {
       const data =
         await response.json();
 
-      if (data.success) {
+     if (data.success) {
 
-        clearCart();
+  clearCart();
 
-        alert(
-          "Order submitted successfully!"
-        );
+  toast.success(
+    "Order submitted successfully!"
+  );
 
-        window.location.href = "/";
-      }
+  setTimeout(() => {
+    window.location.href = "/";
+  }, 1500);
+
+}
 
     } catch (error) {
 
       console.error(error);
-
-      alert(
-        "Failed to place order."
-      );
+      
+      // alert(
+      //   "Failed to place order."
+      // );
+      showErrorToast("Failed to place order.")
 
     } finally {
 
