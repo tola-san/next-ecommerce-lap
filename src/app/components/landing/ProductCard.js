@@ -5,12 +5,26 @@ import Image from "next/image";
 import { FaShoppingCart, FaPlus, FaHeart } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 
 export default function ProductCard({ product }) {
   const [isMobile, setIsMobile] = useState(false);
   const { addToCart } = useCart();
 
+
+  const handleAddToCart = () => {
+
+  addToCart(product);
+
+  toast.success(
+    `${product.title} added to cart 🛒`,
+    {
+      duration: 2000,
+    }
+  );
+
+};
     useEffect(() => {
     const checkScreen = () => {
       setIsMobile(window.innerWidth < 640); // sm breakpoint
@@ -125,34 +139,26 @@ export default function ProductCard({ product }) {
     </div>
   </div>
 
-  {/* RIGHT BUTTON */}
-  <div className="flex items-end justify-end">
-    <button
-      onClick={() => addToCart(product)}
-      className={`
-        flex items-center justify-center gap-2
-        h-10 sm:h-11 cursor-pointer
-        ${isMobile ? "w-10" : "w-full px-4"}
-        rounded-full
-        bg-black
-        text-white
-        transition-all duration-300
-        hover:bg-zinc-800
-        active:scale-95
-      `}
-    >
-      {isMobile ? (
-        <FaPlus className="text-sm" />
-      ) : (
-        <>
-          <FaShoppingCart className="text-sm" />
-          <span className="text-sm font-medium">
-            Add To Cart
-          </span>
-        </>
-      )}
-    </button>
-  </div>
+  <button
+  onClick={handleAddToCart}
+  className="
+    flex items-center justify-center gap-2
+    h-11
+    w-11 sm:w-full
+    rounded-full
+    bg-black text-white
+    hover:bg-zinc-800
+    transition-all duration-300
+    active:scale-95
+  "
+>
+  <FaPlus className="sm:hidden text-sm" />
+
+  <span className="hidden sm:flex items-center gap-2 text-sm font-medium">
+    <FaShoppingCart />
+    Add To Cart
+  </span>
+</button>
 </div>
       
     </div>

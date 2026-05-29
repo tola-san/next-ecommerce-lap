@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import {
   Trash2,
   Plus,
@@ -9,11 +8,9 @@ import {
   ShoppingBag,
   ArrowRight,
 } from "lucide-react";
-
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
-
   const {
     cartItems,
     removeFromCart,
@@ -28,248 +25,159 @@ export default function CartPage() {
 
   const shipping = 10;
   const tax = 5;
-
   const total = subtotal + shipping + tax;
 
   /* EMPTY CART */
   if (cartItems.length === 0) {
     return (
-      <section className="min-h-screen bg-zinc-50 flex items-center justify-center px-6">
-
-        <div className="text-center max-w-lg">
-
-          <div className="w-32 h-32 rounded-full bg-white shadow-lg border border-zinc-200 flex items-center justify-center mx-auto mb-8">
-
-            <ShoppingBag size={60} className="text-zinc-300" />
-
+      <section className="min-h-screen bg-zinc-50 flex items-center justify-center px-6 py-12">
+        <div className="text-center max-w-md">
+          <div className="w-28 h-28 rounded-full bg-white shadow-lg border border-zinc-200 flex items-center justify-center mx-auto mb-8">
+            <ShoppingBag size={52} className="text-zinc-300" />
           </div>
-
-          <h1 className="text-5xl font-semibold mb-5">
+          <h1 className="text-4xl font-semibold mb-4 text-zinc-900">
             Your Cart is Empty
           </h1>
-
-          <p className="text-zinc-500 text-lg leading-8 mb-10">
+          <p className="text-zinc-500 text-[17px] leading-relaxed mb-10">
             Looks like you haven’t added any products yet.
-            Start shopping to fill your cart.
           </p>
-
           <Link
             href="/products"
-            className="inline-flex items-center gap-3 bg-black text-white px-8 py-4 rounded-2xl hover:bg-zinc-800 transition"
+            className="inline-flex items-center gap-3 bg-black text-white px-8 py-4 rounded-3xl hover:bg-zinc-800 transition text-lg font-medium"
           >
             Continue Shopping
-
             <ArrowRight size={20} />
           </Link>
-
         </div>
-
       </section>
     );
   }
 
   return (
-    <section className="bg-zinc-50 min-h-screen py-16">
-
-      <div className="max-w-7xl mx-auto px-6">
-
+    <section className="bg-zinc-50 min-h-screen pb-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 md:py-12">
         {/* Header */}
-        <div className="mb-14">
-
-          <p className="uppercase tracking-[0.3em] text-violet-500 font-semibold text-sm mb-4">
+        <div className="mb-8 md:mb-12">
+          <p className="uppercase tracking-widest text-violet-600 font-semibold text-sm mb-2">
             Shopping Cart
           </p>
-
-          <h1 className="text-5xl font-semibold text-zinc-900">
-            Review Your Order
+          <h1 className="text-3xl md:text-4xl font-semibold text-zinc-900">
+            Your Cart
           </h1>
-
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-10 items-start">
-
-          {/* LEFT SIDE */}
-          <div className="lg:col-span-2 space-y-6">
-
+        <div className="grid md:grid-cols-5 gap-8">
+          {/* Cart Items - Takes more space */}
+          <div className="md:col-span-3 space-y-4">
             {cartItems.map((item) => (
-
               <div
                 key={item.id}
-                className="group bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                className="bg-white rounded-xl p-5 flex gap-5 border border-zinc-100 shadow-sm"
               >
-
-                <div className="flex flex-col md:flex-row gap-8">
-
-                  {/* IMAGE */}
-                  <div className="bg-gradient-to-b from-zinc-100 to-zinc-50 rounded-3xl p-6 flex items-center justify-center min-w-[180px]">
-
-                    <img
-                      src={item.thumbnail}
-                      alt={item.title}
-                      className="w-40 h-40 object-contain transition duration-500 group-hover:scale-105"
-                    />
-
-                  </div>
-
-                  {/* CONTENT */}
-                  <div className="flex-1 flex flex-col justify-between">
-
-                    <div>
-
-                      <p className="uppercase tracking-[0.25em] text-xs text-violet-500 font-semibold mb-3">
-                        Premium Product
-                      </p>
-
-                      <h2 className="text-2xl font-semibold leading-snug line-clamp-2">
-                        {item.title}
-                      </h2>
-
-                      <p className="text-zinc-500 leading-7 mt-4">
-                        Premium modern product with high quality materials and elegant design.
-                      </p>
-
-                    </div>
-
-                    {/* BOTTOM */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mt-8">
-
-                      {/* QUANTITY */}
-                      <div className="flex items-center gap-4">
-
-                        <div className="flex items-center border border-zinc-300 rounded-2xl overflow-hidden bg-zinc-50">
-
-                          <button
-                            onClick={() => decreaseQuantity(item.id)}
-                            className="w-12 h-12 flex items-center justify-center hover:bg-zinc-100 transition"
-                          >
-                            <Minus size={18} />
-                          </button>
-
-                          <span className="w-14 text-center font-semibold text-lg">
-                            {item.quantity}
-                          </span>
-
-                          <button
-                            onClick={() => increaseQuantity(item.id)}
-                            className="w-12 h-12 flex items-center justify-center hover:bg-zinc-100 transition"
-                          >
-                            <Plus size={18} />
-                          </button>
-
-                        </div>
-
-                      </div>
-
-                      {/* PRICE */}
-                      <div className="flex items-center gap-6">
-
-                        <div className="text-right">
-
-                          <p className="text-sm text-zinc-400">
-                            Total Price
-                          </p>
-
-                          <p className="text-3xl font-bold text-zinc-900">
-                            ${(item.price * item.quantity).toFixed(2)}
-                          </p>
-
-                        </div>
-
-                        {/* REMOVE */}
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="w-12 h-12 rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition flex items-center justify-center"
-                        >
-                          <Trash2 size={20} />
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
+                {/* Image */}
+                <div className="w-20 h-20 bg-zinc-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                    className="w-16 h-16 object-contain"
+                  />
                 </div>
 
+                {/* Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg leading-tight line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-zinc-500 text-sm mt-1">Premium Product</p>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:text-red-600 transition"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between">
+                    {/* Price */}
+                    <div>
+                      <p className="text-2xl font-bold text-zinc-900">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </p>
+                      {item.originalPrice && (
+                        <p className="text-sm text-zinc-400 line-through">
+                          ${item.originalPrice}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Quantity */}
+                    <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden">
+                      <button
+                        onClick={() => decreaseQuantity(item.id)}
+                        className="w-10 h-10 flex items-center justify-center hover:bg-zinc-100 transition"
+                      >
+                        <Minus size={18} />
+                      </button>
+                      <span className="w-12 text-center font-semibold text-lg">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => increaseQuantity(item.id)}
+                        className="w-10 h-10 flex items-center justify-center hover:bg-zinc-100 transition"
+                      >
+                        <Plus size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-
             ))}
-
           </div>
 
-          {/* RIGHT SUMMARY */}
-          <div className="sticky top-24">
+          {/* Order Summary */}
+          <div className="md:col-span-2">
+            <div className="bg-white rounded-xl p-6 md:p-8 sticky top-8 border border-zinc-100 shadow-sm">
+              <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
 
-            <div className="bg-white border border-zinc-200 rounded-3xl p-8 shadow-sm">
-
-              <h2 className="text-3xl font-semibold mb-10">
-                Order Summary
-              </h2>
-
-              {/* SUMMARY */}
-              <div className="space-y-6">
-
-                <div className="flex justify-between text-zinc-600">
-                  <span>Subtotal</span>
+              <div className="space-y-4 text-base">
+                <div className="flex justify-between">
+                  <span className="text-zinc-600">Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-
-                <div className="flex justify-between text-zinc-600">
-                  <span>Shipping</span>
+                <div className="flex justify-between">
+                  <span className="text-zinc-600">Shipping</span>
                   <span>${shipping.toFixed(2)}</span>
                 </div>
-
-                <div className="flex justify-between text-zinc-600">
-                  <span>Tax</span>
+                <div className="flex justify-between">
+                  <span className="text-zinc-600">Tax (5%)</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
-
               </div>
 
-              {/* TOTAL */}
-              <div className="border-t border-zinc-200 mt-8 pt-8 flex justify-between items-center">
-
-                <span className="text-2xl font-semibold">
-                  Total
-                </span>
-
-                <span className="text-4xl font-bold">
-                  ${total.toFixed(2)}
-                </span>
-
+              <div className="border-t border-zinc-200 my-6 pt-6 flex justify-between items-center text-xl">
+                <span className="font-semibold">Total</span>
+                <span className="font-bold text-3xl">${total.toFixed(2)}</span>
               </div>
 
-              {/* BUTTON */}
               <Link
                 href="/checkout"
-                className="mt-10 flex items-center justify-center gap-3 bg-black text-white py-5 rounded-2xl hover:bg-zinc-800 transition text-lg font-medium shadow-lg shadow-black/10"
+                className="w-full bg-black text-white py-4 rounded-full flex items-center justify-center gap-3 hover:bg-zinc-800 transition text-lg font-medium mt-4"
               >
                 Proceed to Checkout
-
                 <ArrowRight size={22} />
               </Link>
 
-              {/* Security */}
-              <div className="mt-8 border-t border-zinc-200 pt-6">
-
-                <div className="flex items-center gap-3 text-zinc-500 text-sm">
-                  🔒 Secure SSL encrypted checkout
-                </div>
-
-                <div className="flex items-center gap-3 text-zinc-500 text-sm mt-3">
-                  🚚 Free shipping on orders over $100
-                </div>
-
+              <div className="mt-6 text-xs text-zinc-500 space-y-2">
+                <div>🔒 Secure checkout</div>
+                <div>🚚 Free shipping on orders over $100</div>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }
