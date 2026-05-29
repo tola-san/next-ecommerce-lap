@@ -164,7 +164,7 @@ export default function CartPage() {
 
               <Link
                 href="/checkout"
-                className="w-full bg-black text-white py-4 rounded-full flex items-center justify-center gap-3 hover:bg-zinc-800 transition text-lg font-medium mt-4"
+                className="w-full bg-black text-white py-2 rounded-full flex items-center justify-center gap-3 hover:bg-zinc-800 transition text-md font-medium mt-4"
               >
                 Proceed to Checkout
                 <ArrowRight size={22} />

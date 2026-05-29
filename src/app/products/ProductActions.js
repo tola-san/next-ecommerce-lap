@@ -1,58 +1,44 @@
 "use client";
 
-import { useState } from "react";
-import AddToCartButton from "@/app/cart/AddToCartButton";
+import { useCart } from "@/context/CartContext";
+import { FaShoppingCart } from "react-icons/fa";
+import { showSuccessToast } from "@/lib/toast";
 
-export default function ProductActions({ product }) {
+export default function AddToCartButton({
+  product,
+}) {
 
-  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
-  const increaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
+  const handleAddToCart = () => {
 
-  const decreaseQuantity = () => {
+    addToCart(product);
 
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
+    showSuccessToast(
+      `${product.title} added to cart 🛒`
+    );
 
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-5 mt-12">
+    <button
+      onClick={handleAddToCart}
+      className="
+        bg-black
+        text-white
+        px-8
+        py-4
+        rounded-2xl
+        hover:bg-zinc-800
+        transition
+        flex
+        items-center
+        gap-3
+      "
+    >
+      <FaShoppingCart />
 
-      {/* Quantity */}
-      <div className="flex items-center border border-zinc-300 rounded-2xl overflow-hidden bg-white shadow-sm">
-
-        <button
-          onClick={decreaseQuantity}
-          className="px-5 py-4 hover:bg-zinc-100 transition text-xl"
-        >
-          -
-        </button>
-
-        <span className="px-8 font-semibold text-lg">
-          {quantity}
-        </span>
-
-        <button
-          onClick={increaseQuantity}
-          className="px-5 py-4 hover:bg-zinc-100 transition text-xl"
-        >
-          +
-        </button>
-
-      </div>
-
-      {/* Add To Cart */}
-      <AddToCartButton
-        product={{
-          ...product,
-          quantity,
-        }}
-      />
-
-    </div>
+      Add To Cart
+    </button>
   );
 }

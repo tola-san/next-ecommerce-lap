@@ -33,11 +33,19 @@ export default function RootLayout({ children }) {
         </CartProvider>
         <Toaster
   position="top-center"
-  gutter={12}
+  gutter={10}
   toastOptions={{
-    duration: 3000,
-    className:
-      "!bg-green-500 !text-white !rounded-2xl !shadow-2xl !px-4 !py-3",
+    duration: 2500,
+
+    className: `
+      !bg-zinc-900
+      !text-white
+      !rounded-2xl
+      !shadow-2xl
+      !border
+      !border-zinc-800
+      !font-medium
+    `,
   }}
 />
         <Footer />
