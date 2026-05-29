@@ -1,6 +1,10 @@
 "use client";
 
-import React from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import toast from "react-hot-toast";
+
 import {
   FaCreditCard,
   FaPaypal,
@@ -8,97 +12,232 @@ import {
   FaLock,
 } from "react-icons/fa";
 
-export default function CheckoutPage() {
-  return (
-    <section className="min-h-screen bg-zinc-100 py-16">
+import { useCart } from "@/context/CartContext";
 
-      <div className="max-w-7xl mx-auto px-6">
+export default function CheckoutPage() {
+
+  const {
+    cartItems,
+    clearCart,
+  } = useCart();
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [payment, setPayment] =
+    useState("cod");
+
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postalCode: "",
+  });
+
+  const subtotal = cartItems.reduce(
+    (sum, item) =>
+      sum + item.price * item.quantity,
+    0
+  );
+
+  const shipping = 10;
+
+  const tax = subtotal * 0.05;
+
+  const total =
+    subtotal + shipping + tax;
+
+  const handleChange = (e) => {
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
+  const handlePlaceOrder = async () => {
+
+    if (
+      !form.firstName ||
+      !form.phone ||
+      !form.address
+    ) {
+
+      alert(
+        "Please fill all required fields."
+      );
+
+      return;
+    }
+
+    if (cartItems.length === 0) {
+
+      alert("Cart is empty");
+
+      return;
+    }
+
+    try {
+
+      setLoading(true);
+
+      const order = {
+
+        ...form,
+
+        payment,
+
+        products: cartItems,
+
+        subtotal,
+
+        shipping,
+
+        tax,
+
+        total,
+
+        createdAt:
+          new Date().toISOString(),
+      };
+
+      const response = await fetch(
+        "/api/orders",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify(order),
+        }
+      );
+
+      const data =
+        await response.json();
+
+      if (data.success) {
+
+        clearCart();
+
+        alert(
+          "Order submitted successfully!"
+        );
+
+        window.location.href = "/";
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Failed to place order."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+  return (
+    <section className="bg-zinc-50 min-h-screen pb-24">
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
 
         {/* Header */}
-        <div className="mb-12">
+        <div className="flex items-center gap-4 mb-10">
 
-          <p className="text-violet-600 font-semibold uppercase tracking-widest mb-3">
-            Secure Checkout
-          </p>
+          <Link
+            href="/cart"
+            className="text-zinc-400 hover:text-zinc-700 transition"
+          >
+            <ArrowLeft size={24} />
+          </Link>
 
-          <h1 className="text-5xl font-bold tracking-tight">
-            Complete Your Order
-          </h1>
+          <div>
 
-          <p className="text-zinc-500 mt-4 text-lg">
-            Fast, secure, and modern shopping experience.
-          </p>
+            <p className="uppercase tracking-widest text-violet-600 font-semibold text-sm">
+              Secure Checkout
+            </p>
+
+            <h1 className="text-4xl font-semibold">
+              Complete Your Order
+            </h1>
+
+          </div>
 
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="grid lg:grid-cols-5 gap-8">
 
-          {/* LEFT SIDE */}
-          <div className="lg:col-span-2 space-y-8">
+          {/* LEFT */}
+          <div className="lg:col-span-3 space-y-8">
 
             {/* Shipping */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-zinc-200">
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
 
-              <div className="flex items-center gap-3 mb-8">
-
-                <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center">
-                  1
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    Shipping Information
-                  </h2>
-
-                  <p className="text-zinc-500">
-                    Enter your delivery details
-                  </p>
-                </div>
-
-              </div>
+              <h2 className="text-2xl font-semibold mb-6">
+                Shipping Information
+              </h2>
 
               <div className="grid md:grid-cols-2 gap-5">
 
                 <input
-                  type="text"
+                  name="firstName"
                   placeholder="First Name"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl outline-none focus:ring-2 focus:ring-black"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl"
                 />
 
                 <input
-                  type="text"
+                  name="lastName"
                   placeholder="Last Name"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl outline-none focus:ring-2 focus:ring-black"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl"
                 />
 
                 <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl md:col-span-2 outline-none focus:ring-2 focus:ring-black"
+                  name="email"
+                  placeholder="Email"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl md:col-span-2"
                 />
 
                 <input
-                  type="text"
-                  placeholder="Phone Number"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl md:col-span-2 outline-none focus:ring-2 focus:ring-black"
+                  name="phone"
+                  placeholder="Phone"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl md:col-span-2"
                 />
 
                 <input
-                  type="text"
-                  placeholder="Street Address"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl md:col-span-2 outline-none focus:ring-2 focus:ring-black"
+                  name="address"
+                  placeholder="Address"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl md:col-span-2"
                 />
 
                 <input
-                  type="text"
+                  name="city"
                   placeholder="City"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl outline-none focus:ring-2 focus:ring-black"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl"
                 />
 
                 <input
-                  type="text"
+                  name="postalCode"
                   placeholder="Postal Code"
-                  className="border border-zinc-200 bg-zinc-50 p-4 rounded-2xl outline-none focus:ring-2 focus:ring-black"
+                  onChange={handleChange}
+                  className="border p-4 rounded-xl"
                 />
 
               </div>
@@ -106,100 +245,85 @@ export default function CheckoutPage() {
             </div>
 
             {/* Payment */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-zinc-200">
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
 
-              <div className="flex items-center gap-3 mb-8">
-
-                <div className="w-12 h-12 rounded-2xl border border-blue-500 bg-blue-500/20 text-blue-500 flex items-center justify-center">
-                  2
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    Payment Method
-                  </h2>
-
-                  <p className="text-zinc-500">
-                    Choose your preferred payment option
-                  </p>
-                </div>
-
-              </div>
+              <h2 className="text-2xl font-semibold mb-6">
+                Payment Method
+              </h2>
 
               <div className="space-y-4">
 
-                {/* Credit Card */}
-                <label className="flex items-center  justify-between border border-zinc-200 p-5 rounded-2xl hover:border-black transition cursor-pointer">
+                <label className="flex items-center justify-between border rounded-xl p-5 cursor-pointer">
 
                   <div className="flex items-center gap-4">
 
-                    <div className="w-12 h-12 bg-orange-500/20 border border-orange-400 rounded-xl flex items-center justify-center">
-                      <FaCreditCard className="text-xl text-orange-500" />
-                    </div>
+                    <FaCreditCard size={24} />
 
-                    <div>
-                      <h3 className="font-semibold">
-                        Credit Card
-                      </h3>
-
-                      <p className="text-sm text-zinc-500">
-                        Visa, Mastercard
-                      </p>
-                    </div>
+                    <span>
+                      Credit Card
+                    </span>
 
                   </div>
 
-                  <input type="radio" name="payment" />
+                  <input
+                    type="radio"
+                    checked={
+                      payment === "card"
+                    }
+                    onChange={() =>
+                      setPayment("card")
+                    }
+                  />
 
                 </label>
 
-                {/* Paypal */}
-                <label className="flex items-center justify-between border border-zinc-200 p-5 rounded-2xl hover:border-black transition cursor-pointer">
+                <label className="flex items-center justify-between border rounded-xl p-5 cursor-pointer">
 
                   <div className="flex items-center gap-4">
 
-                    <div className="w-12 h-12 bg-blue-500/20 border border-blue-400 rounded-xl flex items-center justify-center">
-                      <FaPaypal className="text-xl text-blue-500" />
-                    </div>
+                    <FaPaypal size={24} />
 
-                    <div>
-                      <h3 className="font-semibold">
-                        PayPal
-                      </h3>
-
-                      <p className="text-sm text-zinc-500">
-                        Secure online payment
-                      </p>
-                    </div>
+                    <span>
+                      PayPal
+                    </span>
 
                   </div>
 
-                  <input type="radio" name="payment" />
+                  <input
+                    type="radio"
+                    checked={
+                      payment === "paypal"
+                    }
+                    onChange={() =>
+                      setPayment(
+                        "paypal"
+                      )
+                    }
+                  />
 
                 </label>
 
-                {/* COD */}
-                <label className="flex items-center justify-between border border-zinc-200 p-5 rounded-2xl hover:border-black transition cursor-pointer">
+                <label className="flex items-center justify-between border rounded-xl p-5 cursor-pointer">
 
                   <div className="flex items-center gap-4">
 
-                    <div className="w-12 h-12 bg-green-500/20 border border-green-400 rounded-xl flex items-center justify-center">
-                      <FaMoneyBillWave className="text-xl text-green-500" />
-                    </div>
+                    <FaMoneyBillWave size={24} />
 
-                    <div>
-                      <h3 className="font-semibold">
-                        Cash On Delivery
-                      </h3>
-
-                      <p className="text-sm text-zinc-500">
-                        Pay when order arrives
-                      </p>
-                    </div>
+                    <span>
+                      Cash On Delivery
+                    </span>
 
                   </div>
 
-                  <input type="radio" name="payment" />
+                  <input
+                    type="radio"
+                    checked={
+                      payment === "cod"
+                    }
+                    onChange={() =>
+                      setPayment("cod")
+                    }
+                  />
 
                 </label>
 
@@ -209,79 +333,119 @@ export default function CheckoutPage() {
 
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="space-y-6">
+          {/* RIGHT */}
+          <div className="lg:col-span-2">
 
-            {/* Order Summary */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-zinc-200 sticky top-10">
+            <div className="bg-white rounded-2xl p-8 shadow-sm sticky top-8">
 
-              <h2 className="text-3xl font-bold mb-8">
+              <h2 className="text-2xl font-semibold mb-6">
                 Order Summary
               </h2>
 
-              {/* Products */}
-              <div className="space-y-5 mb-8">
+              <div className="space-y-3">
+
+                {cartItems.map((item) => (
+
+                  <div
+                    key={item.id}
+                    className="flex justify-between text-sm"
+                  >
+
+                    <span>
+                      {item.title}
+                      {" "}
+                      ×
+                      {" "}
+                      {item.quantity}
+                    </span>
+
+                    <span>
+                      $
+                      {(
+                        item.price *
+                        item.quantity
+                      ).toFixed(2)}
+                    </span>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+              <div className="border-t mt-6 pt-6 space-y-4">
 
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">
-                    Products
+
+                  <span>
+                    Subtotal
                   </span>
 
-                  <span className="font-semibold">
-                    $240.00
+                  <span>
+                    $
+                    {subtotal.toFixed(2)}
                   </span>
+
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">
+
+                  <span>
                     Shipping
                   </span>
 
-                  <span className="font-semibold">
-                    $10.00
+                  <span>
+                    $
+                    {shipping.toFixed(2)}
                   </span>
+
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">
+
+                  <span>
                     Tax
                   </span>
 
-                  <span className="font-semibold">
-                    $15.00
+                  <span>
+                    $
+                    {tax.toFixed(2)}
                   </span>
+
+                </div>
+
+                <div className="border-t pt-4 flex justify-between text-xl font-bold">
+
+                  <span>
+                    Total
+                  </span>
+
+                  <span>
+                    $
+                    {total.toFixed(2)}
+                  </span>
+
                 </div>
 
               </div>
 
-              {/* Total */}
-              <div className="border-t border-zinc-200 pt-6 flex justify-between items-center mb-8">
-
-                <span className="text-2xl font-bold">
-                  Total
-                </span>
-
-                <span className="text-3xl font-bold">
-                  $265.00
-                </span>
-
-              </div>
-
-              {/* Checkout Button */}
-              <button className="w-full bg-black text-white py-4 rounded-xl hover:bg-zinc-800 transition text-lg font-semibold">
-
-                Place Order
-
+              <button
+                onClick={handlePlaceOrder}
+                disabled={loading}
+                className="mt-8 w-full bg-black text-white py-4 rounded-full hover:bg-zinc-800 transition"
+              >
+                {loading
+                  ? "Submitting..."
+                  : `Place Order • $${total.toFixed(
+                      2
+                    )}`}
               </button>
 
-              {/* Security */}
-              <div className="flex items-center justify-center gap-2 mt-5 text-zinc-500 text-sm">
+              <div className="flex items-center justify-center gap-2 mt-5 text-sm text-zinc-500">
 
                 <FaLock />
 
-                <p>
-                  Secure SSL encrypted checkout
-                </p>
+                Secure SSL encrypted checkout
 
               </div>
 
