@@ -26,9 +26,10 @@ export default function RootLayout({ children }) {
         className={`${poppins.className} min-h-full flex flex-col bg-white/30 backdrop-blur-lg`}
       > 
 
-        <Navbar />
-
+        
         <CartProvider>
+          <Navbar />
+
           {children}
         </CartProvider>
         <Toaster

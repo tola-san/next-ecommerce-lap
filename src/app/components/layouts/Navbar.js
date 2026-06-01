@@ -8,8 +8,11 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
+
+  const { cartCount } = useCart();
   const [open, setOpen] = useState(false);
 
   // Close menu on desktop resize
@@ -217,18 +220,26 @@ export default function Navbar() {
             >
               <ShoppingCart size={20} />
 
-              <span
-                className="
-                  absolute -right-1 -top-1
-                  flex h-5 w-5
-                  items-center justify-center
-                  rounded-full
-                  bg-red-500
-                  text-xs font-medium text-white
-                "
-              >
-                3
-              </span>
+              
+                 {cartCount > 0 && (
+  <span
+    className="
+      absolute -right-2 -top-2
+      min-w-[20px]
+      h-5
+      px-1
+      flex items-center justify-center
+      rounded-full
+      bg-red-500
+      text-[11px]
+      font-semibold
+      text-white
+      shadow-md
+    "
+  >
+    {cartCount > 99 ? "99+" : cartCount}
+  </span>
+)}
             </Link>
 
             {/* Mobile Button */}

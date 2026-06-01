@@ -6,9 +6,14 @@ import { FaShoppingCart, FaPlus, FaHeart } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { getCategoryTheme } from "@/lib/categoryTheme";
 
 
 export default function ProductCard({ product }) {
+
+  //  TODO: use category theme for badge color and text color
+  const theme = getCategoryTheme(product.category);
+
   const [isMobile, setIsMobile] = useState(false);
   const { addToCart } = useCart();
 
@@ -63,13 +68,13 @@ export default function ProductCard({ product }) {
         >
           {/* Badge */}
           <span
-            className="
-              absolute left-2 top-2 z-20
-              rounded-xl bg-orange-500/20
-              px-2 py-1
-              text-[10px] sm:text-xs
-              font-medium text-orange-400 border border-orange-300
-            "
+             className={`
+    absolute left-2 top-2 z-20
+    rounded-lg px-2 py-1
+    text-[10px] sm:text-xs
+    font-medium border
+    ${theme.badge}
+  `}
           >
             {product.stock > 0 ? "New" : "Sold Out"}
           </span>
@@ -114,13 +119,16 @@ export default function ProductCard({ product }) {
     <Link href={`/products/${product.id}`}>
       <h2
         className="
-          mt-2
-          min-h-[32px]
-          text-sm sm:text-lg
-          font-bold
-          text-zinc-900
-          transition group-hover:text-zinc-700
-          line-clamp-1
+      hidden md:block
+      mt-2
+      min-h-[32px]
+      text-sm lg:text-lg
+      font-bold
+      text-zinc-900
+      transition
+      group-hover:text-zinc-700
+      line-clamp-1
+
         "
       >
         {product.title}
@@ -150,9 +158,10 @@ export default function ProductCard({ product }) {
     hover:bg-zinc-800
     transition-all duration-300
     active:scale-95
+    mt-4
   "
 >
-  <FaPlus className="sm:hidden text-sm" />
+  <FaPlus className="sm:hidden text-sm " />
 
   <span className="hidden sm:flex items-center gap-2 text-sm font-medium">
     <FaShoppingCart />
