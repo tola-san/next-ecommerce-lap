@@ -155,7 +155,7 @@ export default function CheckoutPage() {
   return (
     <section className="bg-zinc-50 min-h-screen pb-24">
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-10">
@@ -193,7 +193,8 @@ export default function CheckoutPage() {
                 Shipping Information
               </h2>
 
-              <div className="grid md:grid-cols-2 gap-5">
+              <div className="grid sm:grid-cols-2 gap-5">
+
 
                 <input
                   name="firstName"
@@ -208,6 +209,7 @@ export default function CheckoutPage() {
                   onChange={handleChange}
                   className="border p-4 rounded-xl"
                 />
+               
 
                 <input
                   name="email"

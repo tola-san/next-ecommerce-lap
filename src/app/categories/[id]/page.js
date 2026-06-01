@@ -3,10 +3,16 @@
 import { getProductsByCategory } from "@/services/api";
 import ProductCard from "../../components/landing/ProductCard";
 
+
+
+
 export default async function CategoryDetailPage({ params }) {
+
+    
 
     const { id } = await params;
 
+   
     const products = await getProductsByCategory(id);
 
     return (
