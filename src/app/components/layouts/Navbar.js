@@ -131,10 +131,10 @@ export default function Navbar() {
             className="
               hidden md:flex
               items-center gap-2
-              rounded-full
+              rounded-xl
               border border-zinc-200
               bg-white/70
-              p-1 px-4
+               px-2
               text-sm
               backdrop-blur-lg
             "
@@ -161,10 +161,10 @@ export default function Navbar() {
                 key={index}
                 href={item.href}
                 className="
-                  rounded-full
+                  rounded-xl
                   px-4 py-2
                   transition-all duration-300
-                  hover:bg-zinc-900
+                  hover:bg-zinc-200
                   hover:text-white
                 "
               >
@@ -191,7 +191,7 @@ export default function Navbar() {
                 placeholder="Search products..."
                 className="
                   w-full
-                  rounded-full
+                  rounded-xl
                   border border-zinc-200
                   bg-white/80
                   py-2 pl-11 pr-4
@@ -208,13 +208,13 @@ export default function Navbar() {
               href="/cart"
               className="
                 relative
-                rounded-full
+                rounded-xl
                 border border-zinc-200
                 bg-white
                 p-2
                 text-zinc-700
                 transition-all
-                hover:bg-zinc-900
+                hover:bg-zinc-200
                 hover:text-white
               "
             >

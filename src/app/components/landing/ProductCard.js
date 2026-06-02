@@ -60,10 +60,10 @@ export default function ProductCard({ product }) {
         <div
           className="
             relative flex items-center justify-center
-            h-44 sm:h-32
+            h-44 sm:h-48
             overflow-hidden
-            bg-gradient-to-b from-zinc-100 to-zinc-50
-            p-3 sm:p-5
+            bg-zinc-100 rounded-b-xl
+            py-4
           "
         >
           {/* Badge */}
@@ -120,7 +120,7 @@ export default function ProductCard({ product }) {
       <h2
         className="
       hidden md:block
-      mt-2
+      
       min-h-[32px]
       text-sm lg:text-lg
       font-bold
@@ -153,17 +153,17 @@ export default function ProductCard({ product }) {
     flex items-center justify-center gap-2
     h-11
     w-11 sm:w-full
-    rounded-full
+    rounded-full sm:rounded-lg
     bg-black text-white
     hover:bg-zinc-800
     transition-all duration-300
     active:scale-95
-    mt-4
+    
   "
 >
   <FaPlus className="sm:hidden text-sm " />
 
-  <span className="hidden sm:flex items-center gap-2 text-sm font-medium">
+  <span className="hidden sm:flex items-center gap-2 text-sm font-medium cursor-pointer">
     <FaShoppingCart />
     Add To Cart
   </span>

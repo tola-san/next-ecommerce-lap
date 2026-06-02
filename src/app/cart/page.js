@@ -114,10 +114,10 @@ export default function CartPage() {
                     </div>
 
                     {/* Quantity */}
-                    <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden">
+                    <div className="flex items-center px-1 border border-zinc-200 bg-zinc-100 rounded-full overflow-hidden">
                       <button
                         onClick={() => decreaseQuantity(item.id)}
-                        className="w-10 h-10 flex items-center justify-center hover:bg-zinc-100 transition"
+                        className=" flex border border-zinc-300 rounded-full items-center justify-center hover:bg-zinc-100 transition"
                       >
                         <Minus size={18} />
                       </button>
@@ -126,7 +126,7 @@ export default function CartPage() {
                       </span>
                       <button
                         onClick={() => increaseQuantity(item.id)}
-                        className="w-10 h-10 flex items-center justify-center hover:bg-zinc-100 transition"
+                        className=" border border-zinc-300 rounded-full  flex items-center justify-center hover:bg-zinc-100 transition"
                       >
                         <Plus size={18} />
                       </button>
@@ -139,7 +139,7 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="md:col-span-2">
-            <div className="bg-white rounded-xl p-6 md:p-8 sticky top-8 border border-zinc-100 shadow-sm">
+            <div className="bg-zinc-100 rounded-xl p-6 md:p-8 sticky top-8 border border-zinc-100 shadow-sm">
               <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
 
               <div className="space-y-4 text-base">

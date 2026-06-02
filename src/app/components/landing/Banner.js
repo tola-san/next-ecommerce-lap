@@ -1,34 +1,75 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
-const slides = [
+const fashionCategories = [
   {
     id: 1,
-    image:
-      "https://cdn.prod.website-files.com/615d7c5513b1a337397bbdd7/651d7fd77e6ad1c0493dea8c_Main.webp",
+    name: "Women Clothing",
+    query: "women clothing",
   },
   {
     id: 2,
-    image:
-      "https://media.gq-magazine.co.uk/photos/69c5565a362c1c2206e578ba/16:9/w_1280,c_limit/willy%20x%20zara%20triptych%20lede%20v1.png",
+    name: "Men Clothing",
+    query: "men clothing",
   },
   {
     id: 3,
-    image:
-      "https://data2.nssmag.com/images/galleries/29735/zara-cover.jpg",
+    name: "Streetwear",
+    query: "streetwear fashion",
+  },
+  {
+    id: 4,
+    name: "Luxury Fashion",
+    query: "luxury fashion",
+  },
+  {
+    id: 5,
+    name: "Fashion Shopping",
+    query: "fashion shopping",
   },
 ];
 
 export default function HeroCarousel() {
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.pexels.com/v1/search",
+          {
+            headers: {
+              Authorization:
+                process.env.NEXT_PUBLIC_PEXELS_API_KEY, // Ensure this is set in your .env file
+            },
+            params: {
+              query: fashionCategories[Math.floor(Math.random() * fashionCategories.length)].query,
+              per_page: 3,
+              orientation: "landscape",
+            },
+          }
+        );
+
+        setSlides(response.data.photos);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
   return (
     <section className="w-full px-4 py-6">
       <div className="mx-auto max-w-7xl">
-        
         <Swiper
           modules={[Pagination, Autoplay]}
           slidesPerView={1}
@@ -44,40 +85,19 @@ export default function HeroCarousel() {
         >
           {slides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              
-              <div
-                className="
-                  relative
-                  w-full
-                  h-[220px]
-                  sm:h-[320px]
-                  lg:h-[450px]
-                  overflow-hidden
-                  rounded-2xl
-                "
-              >
-                
-                {/* Full Image */}
+              <div className="relative w-full h-[220px] sm:h-[320px] lg:h-[450px] overflow-hidden rounded-2xl">
                 <img
-                  src={slide.image}
-                  alt="banner"
-                  className="
-                    w-full
-                    h-full
-                    object-cover
-                  "
+                  src={slide.src.landscape}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
                 />
 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-black/20" />
               </div>
-
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-
-    
     </section>
   );
 }
