@@ -20,6 +20,4 @@ npm run dev
 yarn dev
 # or
 
-bun dev
-```
 
